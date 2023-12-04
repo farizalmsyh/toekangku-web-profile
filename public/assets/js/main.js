@@ -219,10 +219,10 @@
         Case Study Active
 	-----------------------------------*/
   var swiper = new Swiper('.case-study-active', {
-    slidesPerView: 3,
-    spaceBetween: 30,
-    centeredSlides: true,
-    loop: true,
+    slidesPerView: 2,
+    // spaceBetween: 30,
+    // centeredSlides: true,
+    // loop: true,
     pagination: {
         el: ".case-study-active .swiper-pagination",
         clickable: true,
