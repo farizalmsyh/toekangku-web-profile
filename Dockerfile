@@ -16,8 +16,11 @@ RUN npm install
 # since it builds the server as well
 RUN npm run build
 
+ENV PORT=80
+ENV HOST="0.0.0.0"
+
 # expose 5000 on container
-EXPOSE 80
+EXPOSE $PORT
 
 # start the app
-CMD [ "serve", "-s", "build", "-p", "80" ]
+CMD [ "node", "server" ]
