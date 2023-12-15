@@ -1,4 +1,43 @@
+import { useState } from 'react';
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [pesan, setPesan] = useState('');
+
+  const data = {
+    nama: name,
+    email: email,
+    pesan: pesan,
+  };
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+
+  const onSubmitMessage = async () => {
+    try {
+      const response = await fetch('https://toekangku-backend-5mballdzpa-et.a.run.app/v1/frontoffice/help/send', options);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      if (data.success) {
+        setName('');
+        setEmail('');
+        setPesan('');
+        window.alert(data.message);
+      } else {
+        window.alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <>
       <div class="section page-banner-section" style={{ backgroundImage: `url('assets/images/footer.png')` }}>
@@ -21,14 +60,6 @@ const Contact = () => {
               <div class="col-lg-12">
                 <div class="page-banner text-center">
                   <h2 class="title">Contact Us</h2>
-                  <ul class="breadcrumb justify-content-center">
-                    <li class="breadcrumb-item">
-                      <a href="#">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                      Contact Us
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -89,32 +120,52 @@ const Contact = () => {
                       <span class="sub-title"> Pesan Khusus</span>
                       <h3 class="title">Bagaimana Kami Dapat Melayani Anda!</h3>
                     </div>
-                    <form action="#">
+                    <div>
                       <div class="row">
                         <div class="col-sm-6">
                           <div class="single-form">
-                            <input type="text" placeholder="Name *" />
+                            <input
+                              value={name}
+                              onChange={(e) => {
+                                setName(e.target.value);
+                              }}
+                              type="text"
+                              placeholder="Name *"
+                            />
                           </div>
                         </div>
                         <div class="col-sm-6">
                           <div class="single-form">
-                            <input type="email" placeholder="Email *" />
+                            <input
+                              value={email}
+                              onChange={(e) => {
+                                setEmail(e.target.value);
+                              }}
+                              type="email"
+                              placeholder="Email *"
+                            />
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <div class="single-form">
-                            <textarea placeholder="Write A Message"></textarea>
+                            <textarea
+                              value={pesan}
+                              onChange={(e) => {
+                                setPesan(e.target.value);
+                              }}
+                              placeholder="Write A Message"
+                            ></textarea>
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <div class="form-btn">
-                            <button class="btn" type="submit">
+                            <button onClick={onSubmitMessage} class="btn" type="submit">
                               Kirim Pesan
                             </button>
                           </div>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
